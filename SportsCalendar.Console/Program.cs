@@ -32,11 +32,21 @@ namespace SportsCalendar.Console
                 allMatches.AddRange(apiResult.Matches);
             }
 
-            // Sinon, on itère et affiche les informations
-            foreach (Match currentMatch in allMatches)
-            {
-                System.Console.WriteLine($"[{currentMatch.Date}] - [{currentMatch.Competition.Code}] - {currentMatch.HomeTeam.FullName} ({currentMatch.HomeTeam.Code}) vs {currentMatch.AwayTeam.FullName} ({currentMatch.AwayTeam.Code})");
-            }
+            // Appeler l'API des calendriers
+            var calendarApi = new CalendarApi();
+            allMatches.ForEach(m => calendarApi.AddEvent(m));
+
+            // Récupérer le résultat
+            string icsContent = calendarApi.GetContent();
+
+            // Et écrire tout ça dans un fichier pour l'utiliser
+            System.IO.File.WriteAllText($"{Guid.NewGuid()}.ics", icsContent);
+
+            // // Sinon, on itère et affiche les informations
+            // foreach (Match currentMatch in allMatches)
+            // {
+            //     System.Console.WriteLine($"[{currentMatch.Date}] - [{currentMatch.Competition.Code}] - {currentMatch.HomeTeam.FullName} ({currentMatch.HomeTeam.Code}) vs {currentMatch.AwayTeam.FullName} ({currentMatch.AwayTeam.Code})");
+            // }
         }
     }
 }
