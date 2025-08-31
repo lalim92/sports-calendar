@@ -1,5 +1,7 @@
 ﻿using SportsCalendar.Objects;
 using SportsCalendar.DataAccessLayer;
+using System;
+using System.Text;
 
 namespace SportsCalendar.Console
 {
@@ -38,9 +40,17 @@ namespace SportsCalendar.Console
 
             // Récupérer le résultat
             string icsContent = calendarApi.GetContent();
+            byte[] icsByte = Encoding.UTF8.GetBytes(icsContent);
+
+            // Initialiser le service de mail
+            var mailApi = new MailApi();
+            // Et envoyer le mail !
+            var mailResult = await mailApi.PostMessageAsync(icsByte);
+
+            System.Console.WriteLine($"{mailResult.Id} - {mailResult.Message}");
 
             // Et écrire tout ça dans un fichier pour l'utiliser
-            System.IO.File.WriteAllText($"{Guid.NewGuid()}.ics", icsContent);
+            // System.IO.File.WriteAllText($"{Guid.NewGuid()}.ics", icsContent);
 
             // // Sinon, on itère et affiche les informations
             // foreach (Match currentMatch in allMatches)
