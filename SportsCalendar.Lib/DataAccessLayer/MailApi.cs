@@ -48,7 +48,7 @@ namespace SportsCalendar.DataAccessLayer
                 new MediaTypeWithQualityHeaderValue("application/json"));
             
             // Authentification (basique)
-            string key = "3a8fbd57c622d810b1e7bfb95f3d6ccf-5a4acb93-7bddaa83";
+            string key = "";
             string base64String = Convert.ToBase64String(Encoding.UTF8.GetBytes($"api:{key}"));
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(@"Basic", base64String);
         }
