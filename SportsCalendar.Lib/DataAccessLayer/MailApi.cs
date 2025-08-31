@@ -48,7 +48,8 @@ namespace SportsCalendar.DataAccessLayer
                 new MediaTypeWithQualityHeaderValue("application/json"));
             
             // Authentification (basique)
-            string base64String = Convert.ToBase64String(Encoding.UTF8.GetBytes("api:3a8fbd57c622d810b1e7bfb95f3d6ccf-5a4acb93-7bddaa83"));
+            string mailApiKey = Environment.GetEnvironmentVariable("MAIL_API_KEY");
+            string base64String = Convert.ToBase64String(Encoding.UTF8.GetBytes($"api:{mailApiKey}"));
             _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(@"Basic", base64String);
         }
 
@@ -57,7 +58,7 @@ namespace SportsCalendar.DataAccessLayer
             var multipart = new MultipartFormDataContent();
 
             // Ajouter les infos
-            multipart.Add(new StringContent("Mailgun Sandbox <postmaster@chuwi.ovh>"), "from");
+            multipart.Add(new StringContent("Sports-Calendar Bot <postmaster@chuwi.ovh>"), "from");
             multipart.Add(new StringContent("Salim A. <salim.abdous@gmail.com>"), "to");
             multipart.Add(new StringContent("Mise à jour du calendrier des matchs"), "subject");
             multipart.Add(new StringContent("Calendrier à jour en PJ du mail."), "text");

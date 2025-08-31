@@ -38,7 +38,8 @@ namespace SportsCalendar.DataAccessLayer
                 new MediaTypeWithQualityHeaderValue("application/json"));
 
             // Ajouter la clé API aux headers
-            _httpClient.DefaultRequestHeaders.Add("X-Auth-Token", "88458b065f564e45b88a4a3daa91afc2");
+            string footballApiToken = Environment.GetEnvironmentVariable("FOOTBALL_API_TOKEN");
+            _httpClient.DefaultRequestHeaders.Add("X-Auth-Token", footballApiToken);
         }
 
         public async Task<GetMatchesResult> GetMatchesAsync(int teamId)

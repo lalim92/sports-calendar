@@ -1,0 +1,8 @@
+services:
+  sports-calendar:
+    image: sports-calendar:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: "no"
+    env_file: sports-calendar.env
